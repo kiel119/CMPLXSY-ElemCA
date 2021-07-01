@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Arrays;
 
 public class ElementaryCa {
 	private HashMap<String, Integer> mappings;
@@ -13,7 +12,7 @@ public class ElementaryCa {
 	}
 
 	public int[] getNewState(int[] oldState){
-		String s1, s2, s3, stateString;
+		String s1, s2, s3;
 		int newState[] = new int[oldState.length];
 
 		s1 = Integer.toString(oldState[0]);
@@ -24,7 +23,7 @@ public class ElementaryCa {
 			s1 = Integer.toString(oldState[i-1]);
 			s2 = Integer.toString(oldState[i]);
 			s3 = Integer.toString(oldState[i+1]);
-
+			
 			newState[i] = mappings.get(s1 + s2 + s3);
 		}
 
