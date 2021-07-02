@@ -12,7 +12,7 @@ public class Main {
 		}
 		initialState[(int) ((gridSize - 1) / 2.0)] = 1;
 
-		ElementaryCaView view = new ElementaryCaView(gridSize, initialState);
+		ElementaryCaView view[] = new ElementaryCaView[1];
 		ElementaryCa elementaryCa = new ElementaryCa();
 		elementaryCa.addMapping("111", 1);
 		elementaryCa.addMapping("110", 0);
@@ -22,29 +22,28 @@ public class Main {
 		elementaryCa.addMapping("010", 1);
 		elementaryCa.addMapping("001", 1);
 		elementaryCa.addMapping("000", 0);
-		ElementaryCaController controller = new ElementaryCaController(elementaryCa, view, initialState);
-
-		Runnable createFrameRunnable = new Runnable(){
-			@Override
-			public void run(){
-				JFrame frame = new JFrame();
-				frame.setTitle("Elementary Cellular Automata (Rule 182)");
-				int frameSize = view.getGridImageSize();
-				frame.setSize(frameSize + 20, frameSize + 40);
-				frame.getContentPane().add(view);
-				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.setLocationRelativeTo(null);
-				frame.setVisible(true);
-			}
-		};
 
 		try{
-			SwingUtilities.invokeAndWait(createFrameRunnable);
+			SwingUtilities.invokeAndWait(new Runnable(){
+				@Override
+				public void run(){
+					JFrame frame = new JFrame();
+					view[0] = new ElementaryCaView(gridSize);
+					frame.setTitle("Elementary Cellular Automata (Rule 182)");
+					frame.getContentPane().add(view[0]);
+					frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frame.pack();
+					frame.setLocationRelativeTo(null);
+					frame.setVisible(true);
+				}
+			});
+			ElementaryCaController controller = new ElementaryCaController(elementaryCa, view[0], initialState);
+			Thread controllerThread = new Thread(controller);
+			controllerThread.start();
 		}catch(InterruptedException | InvocationTargetException e){
 			System.out.println(e.getStackTrace());
 		}
 		
-		Thread controllerThread = new Thread(controller);
-		controllerThread.start();
+		
 	}
 }

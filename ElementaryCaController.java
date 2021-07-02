@@ -15,9 +15,9 @@ public class ElementaryCaController implements Runnable{
     public void run(){
         try{
             while(true){
-                Thread.sleep(30);
+				this.elementaryCaView.updateState(this.currentState);
                 this.currentState = this.elementaryCa.getNewState(this.currentState);
-                this.elementaryCaView.updateState(this.currentState);
+				Thread.sleep(30);
             }
         }catch(InterruptedException | InvocationTargetException e){
             System.out.println(e.getStackTrace());
